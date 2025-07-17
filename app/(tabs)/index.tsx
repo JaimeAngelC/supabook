@@ -6,22 +6,14 @@ import { Text, View } from '@/components/Themed';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase'
 import AddPostForm from '@/components/AddPostForm';
+import { fetchPosts, Posts } from '@/lib/api';
 
 export default function TabOneScreen() {
 
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Posts>([]);
 
   useEffect(() => {
-    (async () => {
-      const { data, error } = await supabase.from('posts').select('*').order('created_at', {
-        ascending: false
-      });
-      if (error) {
-        console.log(error);
-      } else {
-        setPosts(data)
-      }
-    })();
+    fetchPosts().then((data) => setPosts(data));
   }, []);
 
 
