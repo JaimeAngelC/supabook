@@ -1,5 +1,6 @@
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Button, StyleSheet, useColorScheme } from 'react-native'
 import React, { useState } from 'react'
+import { useTheme } from '@react-navigation/native';
 
 interface Props {
     onSubmit: (content: string) => void;
@@ -8,9 +9,10 @@ interface Props {
 
 const AddPostForm = ({ onSubmit }: Props) => {
     const [content, setContent] = useState('');
+    const theme = useColorScheme();
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} value={content} onChangeText={setContent} />
+            <TextInput style={[styles.input, { color: theme === 'dark' ? 'white' : 'black' }]} value={content} onChangeText={setContent} />
             <Button title='Publicar'
                 onPress={() => {
                     onSubmit(content)
